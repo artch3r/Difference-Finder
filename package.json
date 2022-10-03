@@ -22,5 +22,8 @@
   "homepage": "https://github.com/artch3r/frontend-project-46#readme",
   "devDependencies": {
     "commander": "^9.4.1"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21"
   }
 }
