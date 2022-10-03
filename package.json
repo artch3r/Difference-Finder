@@ -1,0 +1,26 @@
+{
+  "name": "@hexlet/code",
+  "version": "1.0.0",
+  "description": "utility that determines the difference between two data structures",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "gendiff": "bin/gendiff.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/artch3r/frontend-project-46.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/artch3r/frontend-project-46/issues"
+  },
+  "type": "module",
+  "homepage": "https://github.com/artch3r/frontend-project-46#readme",
+  "devDependencies": {
+    "commander": "^9.4.1"
+  }
+}
