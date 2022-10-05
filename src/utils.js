@@ -5,7 +5,7 @@ import fs from 'fs';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const getFixturePath = (filename) => path.join(__dirname, '..', '__tests__', filename);
+const getFixturePath = (filename) => path.join(__dirname, '..', '__tests__', '__fixtures__', filename);
 
 const readFile = (filename) => fs.readFileSync(getFixturePath(filename));
 
