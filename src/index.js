@@ -47,4 +47,6 @@ const screenDiff = (filepath1, filepath2) => {
 
 export default genDiff;
 
-export { screenDiff };
+export {
+  screenDiff, buildAbsolutePath, getParsedFile, getDiff,
+};
