@@ -9,7 +9,7 @@ const getAbsolutePath = (filepath) => {
   return path.resolve(currentDirectory, filepath);
 };
 
-const readFile = (filepath) => fs.readFileSync(getAbsolutePath(filepath), 'utf-8');
+const readFile = (filepath) => fs.readFileSync(getAbsolutePath(filepath));
 
 const getFileName = (filepath) => {
   const pathes = filepath.split('/');
