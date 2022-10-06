@@ -7,4 +7,9 @@
 
 ![nodejs-build status badge](https://github.com/artch3r/frontend-project-46/actions/workflows/nodejs-build.yml/badge.svg)
 
+*__gendiff for json__*
 [![asciicast](https://asciinema.org/a/sXjxoCNDkZ4698xggL80Y80ZA.svg)](https://asciinema.org/a/sXjxoCNDkZ4698xggL80Y80ZA)
+
+*__gendiff for yaml__*
+[![asciicast](https://asciinema.org/a/PWTrZ8TDCfYL28NXxk25S7VuY.svg)](https://asciinema.org/a/PWTrZ8TDCfYL28NXxk25S7VuY)
+
