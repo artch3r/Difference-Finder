@@ -6,3 +6,5 @@
 ![nodejs-build status badge](https://github.com/artch3r/frontend-project-46/actions/workflows/nodejs-build.yml/badge.svg)
 
 [![asciicast](https://asciinema.org/a/sXjxoCNDkZ4698xggL80Y80ZA.svg)](https://asciinema.org/a/sXjxoCNDkZ4698xggL80Y80ZA)
+
+new
