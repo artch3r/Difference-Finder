@@ -3,12 +3,20 @@ import { cwd } from 'node:process';
 import path from 'node:path';
 import _ from 'lodash';
 
-const buildAbsolutePath = (filepath) => {
+const getAbsolutePath = (filepath) => {
   const currentDirectory = cwd();
   return path.resolve(currentDirectory, filepath);
 };
 
-const getParsedFile = (filepath) => JSON.parse(fs.readFileSync(filepath, 'utf-8'));
+const readFile = (filepath) => fs.readFileSync(getAbsolutePath(filepath), 'utf-8');
+
+const getParsedFile = (filepath) => JSON.parse(filepath);
+
+const getData = (filepath) => {
+  const file = readFile(filepath);
+  const parsedFile = getParsedFile(file);
+  return parsedFile;
+};
 
 const getDiff = (parsedFile1, parsedFile2) => {
   const keys = _.union(_.keys(parsedFile1), _.keys(parsedFile2));
@@ -31,22 +39,18 @@ const getDiff = (parsedFile1, parsedFile2) => {
 };
 
 const genDiff = (filepath1, filepath2) => {
-  const absolutePath1 = buildAbsolutePath(filepath1);
-  const absolutePath2 = buildAbsolutePath(filepath2);
-  const parsedFile1 = getParsedFile(absolutePath1);
-  const parsedFile2 = getParsedFile(absolutePath2);
-  const differences = getDiff(parsedFile1, parsedFile2);
+  const dataOfFile1 = getData(filepath1);
+  const dataOfFile2 = getData(filepath2);
+  const differences = getDiff(dataOfFile1, dataOfFile2);
 
   return `{\n${differences.join('\n')}\n}`;
 };
 
 const screenDiff = (filepath1, filepath2) => {
-  const differences = genDiff(filepath1, filepath2);
-  console.log(differences);
+  const difference = genDiff(filepath1, filepath2);
+  console.log(difference);
 };
 
 export default genDiff;
 
-export {
-  screenDiff, buildAbsolutePath, getParsedFile, getDiff,
-};
+export { screenDiff };
