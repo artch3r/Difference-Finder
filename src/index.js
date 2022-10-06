@@ -11,26 +11,18 @@ const getAbsolutePath = (filepath) => {
 
 const readFile = (filepath) => fs.readFileSync(getAbsolutePath(filepath));
 
-const getFileName = (filepath) => {
-  const pathes = filepath.split('/');
-  return pathes[pathes.length - 1];
-};
-
-const getFileFormat = (filepath) => {
-  const filename = getFileName(filepath);
-  return filename.split('.')[1];
-};
+const getFileFormat = (filepath) => path.parse(filepath).ext;
 
 const getParsedFile = (filepath) => {
   const file = readFile(filepath);
   const format = getFileFormat(filepath);
 
   switch (format) {
-    case 'json':
+    case '.json':
       return getParsedJson(file);
-    case 'yaml':
+    case '.yaml':
       return getParsedYaml(file);
-    case 'yml':
+    case '.yml':
       return getParsedYaml(file);
     default:
       throw new Error('Unknown file format. Check file extension');
