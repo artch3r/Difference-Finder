@@ -84,12 +84,12 @@ const getDiff = (parsedFile1, parsedFile2) => {
   return differences;
 };
 
-const genDiff = (filepath1, filepath2) => {
+const genDiff = (filepath1, filepath2, formatter = stylish) => {
   const parsedFile1 = getParsedFile(filepath1);
   const parsedFile2 = getParsedFile(filepath2);
   const differences = getDiff(parsedFile1, parsedFile2);
 
-  return stylish(differences);
+  return formatter(differences);
 };
 
 const screenDiff = (filepath1, filepath2) => {
