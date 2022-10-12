@@ -5,12 +5,12 @@ const stringify = (value, depth) => {
     return value;
   }
 
-  const indentSize = depth * 4;
+  const indentSize = depth * 2;
   const currentIndent = ' '.repeat(indentSize);
   const bracketIndent = ' '.repeat(indentSize - 4);
   const lines = Object
     .entries(value)
-    .map(([key, val]) => `${currentIndent}${key}: ${stringify(val, depth + 1)}`);
+    .map(([key, val]) => `${currentIndent}${key}: ${stringify(val, depth + 2)}`);
 
   return [
     '{',
@@ -40,7 +40,7 @@ const stylish = (data) => {
   // };
 
   const iter = (currentElement, depth) => {
-    const indentSize = depth * 4;
+    const indentSize = depth * 2;
     const currentIndent = ' '.repeat(indentSize);
     const bracketIndent = ' '.repeat(indentSize - 2);
 
@@ -52,15 +52,15 @@ const stylish = (data) => {
 
       switch (status) {
         case 'deleted':
-          return `${currentIndent}- ${key}: ${stringify(value, depth + 1.5)}`;
+          return `${currentIndent}- ${key}: ${stringify(value, depth + 3)}`;
         case 'added':
-          return `${currentIndent}+ ${key}: ${stringify(value, depth + 1.5)}`;
+          return `${currentIndent}+ ${key}: ${stringify(value, depth + 3)}`;
         case 'unchanged':
-          return `${currentIndent}  ${key}: ${stringify(value, depth + 1.5)}`;
+          return `${currentIndent}  ${key}: ${stringify(value, depth + 3)}`;
         case 'changed':
-          return [`${currentIndent}- ${key}: ${stringify(oldValue, depth + 1.5)}`, `${currentIndent}+ ${key}: ${stringify(newValue, depth + 1.5)}`];
+          return [`${currentIndent}- ${key}: ${stringify(oldValue, depth + 3)}`, `${currentIndent}+ ${key}: ${stringify(newValue, depth + 3)}`];
         case 'nested':
-          return `${currentIndent}  ${key}: ${iter(value, depth + 1)}`;
+          return `${currentIndent}  ${key}: ${iter(value, depth + 2)}`;
         default:
           throw new Error('Unknown status');
       }
