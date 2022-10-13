@@ -1,16 +1,18 @@
 import _ from 'lodash';
 
+const getIndentSize = (depth) => depth * 4 - 2;
+
 const stringify = (value, depth) => {
   if (!_.isObject(value)) {
     return value;
   }
 
-  const indentSize = depth * 2;
+  const indentSize = getIndentSize(depth);
   const currentIndent = ' '.repeat(indentSize);
-  const bracketIndent = ' '.repeat(indentSize - 4);
+  const bracketIndent = ' '.repeat(indentSize - 2);
   const lines = Object
     .entries(value)
-    .map(([key, val]) => `${currentIndent}${key}: ${stringify(val, depth + 2)}`);
+    .map(([key, val]) => `${currentIndent}  ${key}: ${stringify(val, depth + 1)}`);
 
   return [
     '{',
@@ -78,7 +80,7 @@ const stylish = (data) => {
   // };
 
   const iter = (currentValue, depth) => {
-    const indentSize = depth * 2;
+    const indentSize = getIndentSize(depth);
     const currentIndent = ' '.repeat(indentSize);
     const bracketIndent = ' '.repeat(indentSize - 2);
 
@@ -89,15 +91,15 @@ const stylish = (data) => {
 
       switch (type) {
         case 'deleted':
-          return `${currentIndent}- ${key}: ${stringify(value, depth + 3)}`;
+          return `${currentIndent}- ${key}: ${stringify(value, depth + 1)}`;
         case 'added':
-          return `${currentIndent}+ ${key}: ${stringify(value, depth + 3)}`;
+          return `${currentIndent}+ ${key}: ${stringify(value, depth + 1)}`;
         case 'unchanged':
-          return `${currentIndent}  ${key}: ${stringify(value, depth + 3)}`;
+          return `${currentIndent}  ${key}: ${stringify(value, depth + 1)}`;
         case 'changed':
-          return [`${currentIndent}- ${key}: ${stringify(value1, depth + 3)}`, `${currentIndent}+ ${key}: ${stringify(value2, depth + 3)}`];
+          return [`${currentIndent}- ${key}: ${stringify(value1, depth + 1)}`, `${currentIndent}+ ${key}: ${stringify(value2, depth + 1)}`];
         case 'nested':
-          return `${currentIndent}  ${key}: ${iter(child, depth + 2)}`;
+          return `${currentIndent}  ${key}: ${iter(child, depth + 1)}`;
         default:
           throw new Error('Unknown type');
       }
