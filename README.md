@@ -13,3 +13,6 @@
 *__gendiff for yaml__*
 [![asciicast](https://asciinema.org/a/PWTrZ8TDCfYL28NXxk25S7VuY.svg)](https://asciinema.org/a/PWTrZ8TDCfYL28NXxk25S7VuY)
 
+*__gendiff for nested__*
+[![asciicast](https://asciinema.org/a/vrQWQLDFfnP6Q3vMzUj3rUlAB.svg)](https://asciinema.org/a/vrQWQLDFfnP6Q3vMzUj3rUlAB)
+
