@@ -38,19 +38,56 @@ const stylish = (data) => {
 
   //   return ['{', ...lines, `${bracketIndent}}`].join('\n');
   // };
+  //
+  //
+  // Формирование дифа-объекта типа
+  // group1: {
+  //   status: 'nested',
+  //   value: { baz: [Object], foo: [Object], nest: [Object] }
+  // },
+  //
+  // const iter = (currentElement, depth) => {
+  //   const indentSize = depth * 2;
+  //   const currentIndent = ' '.repeat(indentSize);
+  //   const bracketIndent = ' '.repeat(indentSize - 2);
 
-  const iter = (currentElement, depth) => {
+  //   const keys = _.keys(currentElement);
+  //   const lines = keys.flatMap((key) => {
+  //     const {
+  //       status, value, oldValue, newValue,
+  //     } = currentElement[key];
+
+  //     switch (status) {
+  //       case 'deleted':
+  //         return `${currentIndent}- ${key}: ${stringify(value, depth + 3)}`;
+  //       case 'added':
+  //         return `${currentIndent}+ ${key}: ${stringify(value, depth + 3)}`;
+  //       case 'unchanged':
+  //         return `${currentIndent}  ${key}: ${stringify(value, depth + 3)}`;
+  //       case 'changed':
+  //         return [`${currentIndent}- ${key}: ${stringify(oldValue, depth + 3)}`,
+  //  `${currentIndent}+ ${key}: ${stringify(newValue, depth + 3)}`];
+  //       case 'nested':
+  //         return `${currentIndent}  ${key}: ${iter(value, depth + 2)}`;
+  //       default:
+  //         throw new Error('Unknown status');
+  //     }
+  //   });
+
+  //   return ['{', ...lines, `${bracketIndent}}`].join('\n');
+  // };
+
+  const iter = (currentValue, depth) => {
     const indentSize = depth * 2;
     const currentIndent = ' '.repeat(indentSize);
     const bracketIndent = ' '.repeat(indentSize - 2);
 
-    const keys = _.keys(currentElement);
-    const lines = keys.flatMap((key) => {
+    const lines = currentValue.children.flatMap((child) => {
       const {
-        status, value, oldValue, newValue,
-      } = currentElement[key];
+        key, value, previousValue, newValue, type,
+      } = child;
 
-      switch (status) {
+      switch (type) {
         case 'deleted':
           return `${currentIndent}- ${key}: ${stringify(value, depth + 3)}`;
         case 'added':
@@ -58,11 +95,11 @@ const stylish = (data) => {
         case 'unchanged':
           return `${currentIndent}  ${key}: ${stringify(value, depth + 3)}`;
         case 'changed':
-          return [`${currentIndent}- ${key}: ${stringify(oldValue, depth + 3)}`, `${currentIndent}+ ${key}: ${stringify(newValue, depth + 3)}`];
+          return [`${currentIndent}- ${key}: ${stringify(previousValue, depth + 3)}`, `${currentIndent}+ ${key}: ${stringify(newValue, depth + 3)}`];
         case 'nested':
-          return `${currentIndent}  ${key}: ${iter(value, depth + 2)}`;
+          return `${currentIndent}  ${key}: ${iter(child, depth + 2)}`;
         default:
-          throw new Error('Unknown status');
+          throw new Error('Unknown type');
       }
     });
 

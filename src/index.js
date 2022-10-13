@@ -59,27 +59,60 @@ const getDiff = (parsedFile1, parsedFile2) => {
   //     ? [...acc, { key, status: ' ', value: value1 }]
   //     : [...acc, { key, status: '-', value: value1 }, { key, status: '+', value: value2 }];
   // }, []);
+  //
+  //
+  // Формирование дифа-объекта типа
+  // group1: {
+  //   status: 'nested',
+  //   value: { baz: [Object], foo: [Object], nest: [Object] }
+  // },
+  //
+  // const differences = sortedKeys.reduce((acc, key) => {
+  //   const value1 = parsedFile1[key];
+  //   const value2 = parsedFile2[key];
+
+  //   if (!_.has(parsedFile2, key)) {
+  //     return { ...acc, [key]: { status: 'deleted', value: value1 } };
+  //   }
+
+  //   if (!_.has(parsedFile1, key)) {
+  //     return { ...acc, [key]: { status: 'added', value: value2 } };
+  //   }
+
+  //   if (checkIsObject(value1) && checkIsObject(value2)) {
+  //     return { ...acc, [key]: { status: 'nested', value: getDiff(value1, value2) } };
+  //   }
+
+  //   return parsedFile1[key] === parsedFile2[key]
+  //     ? { ...acc, [key]: { status: 'unchanged', value: value1 } }
+  //     : { ...acc, [key]: { status: 'changed', oldValue: value1, newValue: value2 } };
+  // }, {});
 
   const differences = sortedKeys.reduce((acc, key) => {
     const value1 = parsedFile1[key];
     const value2 = parsedFile2[key];
 
     if (!_.has(parsedFile2, key)) {
-      return { ...acc, [key]: { status: 'deleted', value: value1 } };
+      return { ...acc, children: [...acc.children, { key, type: 'deleted', value: value1 }] };
     }
 
     if (!_.has(parsedFile1, key)) {
-      return { ...acc, [key]: { status: 'added', value: value2 } };
+      return { ...acc, children: [...acc.children, { key, type: 'added', value: value2 }] };
     }
 
     if (checkIsObject(value1) && checkIsObject(value2)) {
-      return { ...acc, [key]: { status: 'nested', value: getDiff(value1, value2) } };
+      return { ...acc, children: [...acc.children, { key, type: 'nested', children: getDiff(value1, value2).children }] };
     }
 
     return parsedFile1[key] === parsedFile2[key]
-      ? { ...acc, [key]: { status: 'unchanged', value: value1 } }
-      : { ...acc, [key]: { status: 'changed', oldValue: value1, newValue: value2 } };
-  }, {});
+      ? { ...acc, children: [...acc.children, { key, type: 'unchanged', value: value1 }] }
+      : {
+        ...acc,
+        children: [...acc.children, {
+          key, type: 'changed', previousValue: value1, newValue: value2,
+        }],
+      };
+  }, { type: 'nested', children: [] });
 
   return differences;
 };
