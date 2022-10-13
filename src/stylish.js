@@ -84,7 +84,7 @@ const stylish = (data) => {
 
     const lines = currentValue.children.flatMap((child) => {
       const {
-        key, value, previousValue, newValue, type,
+        key, value, value1, value2, type,
       } = child;
 
       switch (type) {
@@ -95,7 +95,7 @@ const stylish = (data) => {
         case 'unchanged':
           return `${currentIndent}  ${key}: ${stringify(value, depth + 3)}`;
         case 'changed':
-          return [`${currentIndent}- ${key}: ${stringify(previousValue, depth + 3)}`, `${currentIndent}+ ${key}: ${stringify(newValue, depth + 3)}`];
+          return [`${currentIndent}- ${key}: ${stringify(value1, depth + 3)}`, `${currentIndent}+ ${key}: ${stringify(value2, depth + 3)}`];
         case 'nested':
           return `${currentIndent}  ${key}: ${iter(child, depth + 2)}`;
         default:

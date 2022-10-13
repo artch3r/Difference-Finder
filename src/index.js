@@ -109,10 +109,10 @@ const getDiff = (parsedFile1, parsedFile2) => {
       : {
         ...acc,
         children: [...acc.children, {
-          key, type: 'changed', previousValue: value1, newValue: value2,
+          key, type: 'changed', value1, value2,
         }],
       };
-  }, { type: 'nested', children: [] });
+  }, { type: 'root', children: [] });
 
   return differences;
 };
@@ -125,11 +125,4 @@ const genDiff = (filepath1, filepath2, formatter = stylish) => {
   return formatter(differences);
 };
 
-const screenDiff = (filepath1, filepath2) => {
-  const difference = genDiff(filepath1, filepath2);
-  console.log(difference);
-};
-
 export default genDiff;
-
-export { screenDiff };

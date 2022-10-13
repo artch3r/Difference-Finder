@@ -1,13 +1,15 @@
 #!/usr/bin/env node
 
 import { program } from 'commander';
-import { screenDiff } from '../src/index.js';
+import genDiff from '../src/index.js';
 import stylish from '../src/stylish.js';
 
 program
   .description('Compares two configuration files and shows a difference.')
   .version('1.0.0')
-  .option('-f, --format <type>', 'output format', stylish, stylish)
+  .option('-f, --format <type>', 'output format', stylish)
   .arguments('<filepath1> <filepath2>')
-  .action(screenDiff)
+  .action((filepath1, filepath2) => {
+    console.log(genDiff(filepath1, filepath2, program.opts().format));
+  })
   .parse(process.argv);
