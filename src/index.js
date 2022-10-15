@@ -4,6 +4,7 @@ import path from 'node:path';
 import _ from 'lodash';
 import { getParsedJson, getParsedYaml } from './parsers.js';
 import stylish from './formatters/stylish.js';
+import plain from './formatters/plain.js';
 
 const getAbsolutePath = (filepath) => {
   const currentDirectory = cwd();
