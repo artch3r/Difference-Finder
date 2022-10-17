@@ -3,13 +3,21 @@
 import { program } from 'commander';
 import genDiff from '../src/index.js';
 import stylish from '../src/formatters/stylish.js';
+import plain from '../src/formatters/plain.js';
 
 program
   .description('Compares two configuration files and shows a difference.')
   .version('1.0.0')
-  .option('-f, --format <type>', 'output format', stylish)
+  .option('-f, --format <type>', 'output format')
   .arguments('<filepath1> <filepath2>')
   .action((filepath1, filepath2) => {
-    console.log(genDiff(filepath1, filepath2, program.opts().format));
+    const outputFormat = program.opts().format;
+
+    if (outputFormat === 'plain') {
+      console.log(genDiff(filepath1, filepath2, plain));
+      return;
+    }
+
+    console.log(genDiff(filepath1, filepath2, stylish));
   })
   .parse(process.argv);

@@ -4,7 +4,7 @@ import path from 'node:path';
 import _ from 'lodash';
 import { getParsedJson, getParsedYaml } from './parsers.js';
 import stylish from './formatters/stylish.js';
-import getFormattedData from './formatters/index.js';
+import getFormattedDiff from './formatters/index.js';
 
 const getAbsolutePath = (filepath) => {
   const currentDirectory = cwd();
@@ -13,13 +13,13 @@ const getAbsolutePath = (filepath) => {
 
 const readFile = (filepath) => fs.readFileSync(getAbsolutePath(filepath));
 
-const getFileFormat = (filepath) => path.parse(filepath).ext;
+const getInputFormat = (filepath) => path.parse(filepath).ext;
 
 const getParsedFile = (filepath) => {
   const file = readFile(filepath);
-  const format = getFileFormat(filepath);
+  const inputFormat = getInputFormat(filepath);
 
-  switch (format) {
+  switch (inputFormat) {
     case '.json':
       return getParsedJson(file);
     case '.yaml':
@@ -65,12 +65,12 @@ const getDiff = (parsedFile1, parsedFile2) => {
   return differences;
 };
 
-const genDiff = (filepath1, filepath2, formatter = stylish) => {
+const genDiff = (filepath1, filepath2, outputFormat = stylish) => {
   const parsedFile1 = getParsedFile(filepath1);
   const parsedFile2 = getParsedFile(filepath2);
   const differences = getDiff(parsedFile1, parsedFile2);
 
-  return getFormattedData(differences, formatter);
+  return getFormattedDiff(differences, outputFormat);
 };
 
 export default genDiff;

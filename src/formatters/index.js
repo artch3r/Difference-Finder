@@ -1,12 +1,12 @@
 import stylish from './stylish.js';
 import plain from './plain.js';
 
-const getFormattedData = (data, formatName) => {
+const getFormattedDiff = (differences, formatName) => {
   if (formatName === stylish) {
-    return stylish(data);
+    return stylish(differences);
   }
 
-  return plain(data);
+  return plain(differences);
 };
 
-export default getFormattedData;
+export default getFormattedDiff;
