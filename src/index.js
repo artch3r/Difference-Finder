@@ -3,7 +3,6 @@ import { cwd } from 'node:process';
 import path from 'node:path';
 import _ from 'lodash';
 import { getParsedJson, getParsedYaml } from './parsers.js';
-import stylish from './formatters/stylish.js';
 import getFormattedDiff from './formatters/index.js';
 
 const getAbsolutePath = (filepath) => {

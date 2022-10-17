@@ -2,9 +2,6 @@
 
 import { program } from 'commander';
 import genDiff from '../src/index.js';
-import stylish from '../src/formatters/stylish.js';
-import plain from '../src/formatters/plain.js';
-import json from '../src/formatters/json.js';
 
 program
   .description('Compares two configuration files and shows a difference.')
