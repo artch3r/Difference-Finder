@@ -3,15 +3,16 @@ import plain from './plain.js';
 import json from './json.js';
 
 const getFormattedDiff = (differences, outputFormat) => {
-  if (outputFormat === stylish) {
-    return stylish(differences);
+  switch (outputFormat) {
+    case 'stylish':
+      return stylish(differences);
+    case 'plain':
+      return plain(differences);
+    case 'json':
+      return JSON.stringify(differences);
+    default:
+      throw new Error('Unknown output format');
   }
-
-  if (outputFormat === json) {
-    return json(differences);
-  }
-
-  return plain(differences);
 };
 
 export default getFormattedDiff;

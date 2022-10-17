@@ -65,7 +65,7 @@ const getDiff = (parsedFile1, parsedFile2) => {
   return differences;
 };
 
-const genDiff = (filepath1, filepath2, outputFormat = stylish) => {
+const genDiff = (filepath1, filepath2, outputFormat = 'stylish') => {
   const parsedFile1 = getParsedFile(filepath1);
   const parsedFile2 = getParsedFile(filepath2);
   const differences = getDiff(parsedFile1, parsedFile2);
