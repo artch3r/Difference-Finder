@@ -2,7 +2,6 @@ import { expect, test } from '@jest/globals';
 import { fileURLToPath } from 'url';
 import path, { dirname } from 'path';
 import genDiff from '../src/index.js';
-import plain from '../src/formatters/plain.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -116,7 +115,7 @@ test('gendiff plain', () => {
   filepath1 = getFixturePath('file1.yml');
   filepath2 = getFixturePath('file2.yml');
 
-  expect(genDiff(filepath1, filepath2, plain)).toEqual(`Property 'common.follow' was added with value: false
+  expect(genDiff(filepath1, filepath2, 'plain')).toEqual(`Property 'common.follow' was added with value: false
 Property 'common.setting2' was removed
 Property 'common.setting3' was updated. From true to null
 Property 'common.setting4' was added with value: 'blah blah'
