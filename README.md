@@ -19,3 +19,6 @@
 *__gendiff with plain output__*
 [![asciicast](https://asciinema.org/a/oP634Ypk04iby4zU26SI9Gqsw.svg)](https://asciinema.org/a/oP634Ypk04iby4zU26SI9Gqsw)
 
+*__gendiff with json output__*
+[![asciicast](https://asciinema.org/a/KGoA2YPlbjJwrQuhxWA1h9P1c.svg)](https://asciinema.org/a/KGoA2YPlbjJwrQuhxWA1h9P1c)
+
