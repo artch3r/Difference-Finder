@@ -16,3 +16,6 @@
 *__gendiff for nested__*
 [![asciicast](https://asciinema.org/a/vrQWQLDFfnP6Q3vMzUj3rUlAB.svg)](https://asciinema.org/a/vrQWQLDFfnP6Q3vMzUj3rUlAB)
 
+*__gendiff with plain output__*
+[![asciicast](https://asciinema.org/a/oP634Ypk04iby4zU26SI9Gqsw.svg)](https://asciinema.org/a/oP634Ypk04iby4zU26SI9Gqsw)
+
