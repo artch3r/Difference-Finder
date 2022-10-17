@@ -17,15 +17,16 @@ const plain = (data) => {
     const {
       key, value, value1, value2, type, children,
     } = currentValue;
+    const previousPath = parents === '' ? '' : `${parents}.`;
 
     if (!currentValue.children) {
       switch (type) {
         case 'deleted':
-          return `Property '${parents}.${currentValue.key}' was removed`;
+          return `Property '${previousPath}${currentValue.key}' was removed`;
         case 'added':
-          return `Property '${parents}.${currentValue.key}' was added with value:${getValueView(value)}`;
+          return `Property '${previousPath}${currentValue.key}' was added with value: ${getValueView(value)}`;
         case 'changed':
-          return `Property '${parents}.${currentValue.key}' was updated. From ${getValueView(value1)} to ${getValueView(value2)}`;
+          return `Property '${previousPath}${currentValue.key}' was updated. From ${getValueView(value1)} to ${getValueView(value2)}`;
         case 'unchanged':
           return [];
         default:
@@ -33,7 +34,8 @@ const plain = (data) => {
       }
     }
 
-    const result = children.flatMap((child) => iter(child, `${parents}.${key}`));
+    const result = children.flatMap((child) => iter(child, `${previousPath}${key}`));
+
     return result.join('\n');
   };
 

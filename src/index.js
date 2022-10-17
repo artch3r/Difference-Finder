@@ -4,7 +4,7 @@ import path from 'node:path';
 import _ from 'lodash';
 import { getParsedJson, getParsedYaml } from './parsers.js';
 import stylish from './formatters/stylish.js';
-import plain from './formatters/plain.js';
+import getFormattedData from './formatters/index.js';
 
 const getAbsolutePath = (filepath) => {
   const currentDirectory = cwd();
@@ -60,7 +60,7 @@ const getDiff = (parsedFile1, parsedFile2) => {
           key, type: 'changed', value1, value2,
         }],
       };
-  }, { type: 'root', children: [] });
+  }, { type: 'root', key: '', children: [] });
 
   return differences;
 };
@@ -70,7 +70,7 @@ const genDiff = (filepath1, filepath2, formatter = stylish) => {
   const parsedFile2 = getParsedFile(filepath2);
   const differences = getDiff(parsedFile1, parsedFile2);
 
-  return formatter(differences);
+  return getFormattedData(differences, formatter);
 };
 
 export default genDiff;
