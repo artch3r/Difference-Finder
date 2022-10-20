@@ -1,16 +1,12 @@
 import fs from 'fs';
-import { cwd } from 'node:process';
 import path from 'node:path';
 import _ from 'lodash';
 import { getParsedJson, getParsedYaml } from './parsers.js';
 import getFormattedDiff from './formatters/index.js';
 
-const getAbsolutePath = (filepath) => {
-  const currentDirectory = cwd();
-  return path.resolve(currentDirectory, filepath);
-};
+const buildAbsolutePath = (filepath) => path.resolve(process.cwd(), filepath);
 
-const readFile = (filepath) => fs.readFileSync(getAbsolutePath(filepath));
+const readFile = (filepath) => fs.readFileSync(buildAbsolutePath(filepath));
 
 const getInputFormat = (filepath) => path.parse(filepath).ext;
 
