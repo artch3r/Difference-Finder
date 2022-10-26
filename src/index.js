@@ -1,14 +1,14 @@
 import fs from 'fs';
 import path from 'path';
 import buildTree from './buildtree.js';
-import parseData from './parsers.js';
+import parse from './parsers.js';
 import format from './formatters/index.js';
 
 const buildAbsolutePath = (filepath) => path.resolve(process.cwd(), filepath);
 
 const extractFormat = (filepath) => path.parse(filepath).ext.slice(1);
 
-const getData = (filepath) => parseData(fs.readFileSync(filepath), extractFormat(filepath));
+const getData = (filepath) => parse(fs.readFileSync(filepath), extractFormat(filepath));
 
 const genDiff = (filepath1, filepath2, outputFormat = 'stylish') => {
   const data1 = getData(buildAbsolutePath(filepath1));
