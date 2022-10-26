@@ -6,13 +6,9 @@ import format from './formatters/index.js';
 
 const buildAbsolutePath = (filepath) => path.resolve(process.cwd(), filepath);
 
-const extractInputFormat = (filepath) => path.parse(filepath).ext.slice(1);
+const extractFormat = (filepath) => path.parse(filepath).ext.slice(1);
 
-const getData = (filepath) => {
-  const inputData = fs.readFileSync(filepath);
-  const inputFormat = extractInputFormat(filepath);
-  return parseData(inputData, inputFormat);
-};
+const getData = (filepath) => parseData(fs.readFileSync(filepath), extractFormat(filepath));
 
 const genDiff = (filepath1, filepath2, outputFormat = 'stylish') => {
   const absolutePath1 = buildAbsolutePath(filepath1);
