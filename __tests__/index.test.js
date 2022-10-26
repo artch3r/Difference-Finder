@@ -15,11 +15,11 @@ const plainDiff = readFixture('plain_diff.yml');
 const jsonDiff = readFixture('json_diff.json');
 
 test.each([
-  ['file1.json', 'file2.json'],
-  ['file1.yml', 'file2.yml'],
-])('genDiff', (file1, file2) => {
-  const filepath1 = getFixturePath(`${file1}`);
-  const filepath2 = getFixturePath(`${file2}`);
+  ['json'],
+  ['yml'],
+])('genDiff', (format) => {
+  const filepath1 = getFixturePath(`file1.${format}`);
+  const filepath2 = getFixturePath(`file2.${format}`);
   expect(genDiff(filepath1, filepath2)).toEqual(stylishDiff);
   expect(genDiff(filepath1, filepath2, 'stylish')).toEqual(stylishDiff);
   expect(genDiff(filepath1, filepath2, 'plain')).toEqual(plainDiff);
