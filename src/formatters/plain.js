@@ -19,24 +19,22 @@ const plain = (data) => {
     } = currentValue;
     const previousPath = parents === '' ? '' : `${parents}.`;
 
-    if (!currentValue.children) {
-      switch (type) {
-        case 'deleted':
-          return `Property '${previousPath}${currentValue.key}' was removed`;
-        case 'added':
-          return `Property '${previousPath}${currentValue.key}' was added with value: ${getValueView(value)}`;
-        case 'changed':
-          return `Property '${previousPath}${currentValue.key}' was updated. From ${getValueView(value1)} to ${getValueView(value2)}`;
-        case 'unchanged':
-          return [];
-        default:
-          throw new Error('Unknown type');
-      }
+    switch (type) {
+      case 'deleted':
+        return `Property '${previousPath}${currentValue.key}' was removed`;
+      case 'added':
+        return `Property '${previousPath}${currentValue.key}' was added with value: ${getValueView(value)}`;
+      case 'changed':
+        return `Property '${previousPath}${currentValue.key}' was updated. From ${getValueView(value1)} to ${getValueView(value2)}`;
+      case 'unchanged':
+        return [];
+      case 'nested':
+        return children.flatMap((child) => iter(child, `${previousPath}${key}`)).join('\n');
+      case 'root':
+        return children.flatMap((child) => iter(child, '')).join('\n');
+      default:
+        throw new Error('Unknown type');
     }
-
-    const result = children.flatMap((child) => iter(child, `${previousPath}${key}`));
-
-    return result.join('\n');
   };
 
   return iter(data, '');
