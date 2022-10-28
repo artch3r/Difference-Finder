@@ -27,28 +27,50 @@ const stylish = (data) => {
     const currentIndent = ' '.repeat(indentSize);
     const bracketIndent = ' '.repeat(indentSize - 2);
 
-    const lines = currentValue.children.flatMap((child) => {
-      const {
-        key, value, value1, value2, type,
-      } = child;
+    const {
+      key, value, value1, value2, type, children,
+    } = currentValue;
 
-      switch (type) {
-        case 'deleted':
-          return `${currentIndent}- ${key}: ${stringify(value, depth + 1)}`;
-        case 'added':
-          return `${currentIndent}+ ${key}: ${stringify(value, depth + 1)}`;
-        case 'unchanged':
-          return `${currentIndent}  ${key}: ${stringify(value, depth + 1)}`;
-        case 'changed':
-          return [`${currentIndent}- ${key}: ${stringify(value1, depth + 1)}`, `${currentIndent}+ ${key}: ${stringify(value2, depth + 1)}`];
-        case 'nested':
-          return `${currentIndent}  ${key}: ${iter(child, depth + 1)}`;
-        default:
-          throw new Error('Unknown type');
-      }
-    });
+    switch (type) {
+      case 'deleted':
+        return `${currentIndent}- ${key}: ${stringify(value, depth + 1)}`;
+      case 'added':
+        return `${currentIndent}+ ${key}: ${stringify(value, depth + 1)}`;
+      case 'unchanged':
+        return `${currentIndent}  ${key}: ${stringify(value, depth + 1)}`;
+      case 'changed':
+        return [`${currentIndent}- ${key}: ${stringify(value1, depth + 1)}`, `${currentIndent}+ ${key}: ${stringify(value2, depth + 1)}`];
+      case 'nested':
+        return `${currentIndent}  ${key}: ${['{', ...children.flatMap((child) => iter(child, depth + 1)), `${currentIndent}  }`].join('\n')}`;
+      case 'root':
+        return ['{', ...children.flatMap((child) => iter(child, depth)), `${bracketIndent}}`].join('\n');
+      default:
+        throw new Error('Unknown type');
+    }
 
-    return ['{', ...lines, `${bracketIndent}}`].join('\n');
+    // const lines = currentValue.children.flatMap((child) => {
+    //   const {
+    //     key, value, value1, value2, type,
+    //   } = child;
+
+    //   switch (type) {
+    //     case 'deleted':
+    //       return `${currentIndent}- ${key}: ${stringify(value, depth + 1)}`;
+    //     case 'added':
+    //       return `${currentIndent}+ ${key}: ${stringify(value, depth + 1)}`;
+    //     case 'unchanged':
+    //       return `${currentIndent}  ${key}: ${stringify(value, depth + 1)}`;
+    //     case 'changed':
+    //       return [`${currentIndent}- ${key}: ${stringify(value1, depth + 1)}`,
+    //  `${currentIndent}+ ${key}: ${stringify(value2, depth + 1)}`];
+    //     case 'nested':
+    //       return `${currentIndent}  ${key}: ${iter(child, depth + 1)}`;
+    //     default:
+    //       throw new Error('Unknown type');
+    //   }
+    // });
+
+    // return ['{', ...lines, `${bracketIndent}}`].join('\n');
   };
 
   return iter(data, 1);
