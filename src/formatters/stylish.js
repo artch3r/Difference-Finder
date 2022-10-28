@@ -1,13 +1,13 @@
 import _ from 'lodash';
 
-const getIndentSize = (depth) => depth * 4 - 2;
+const indent = (depth, spacesCount = 4) => depth * spacesCount - 2;
 
 const stringify = (value, depth) => {
   if (!_.isObject(value)) {
     return value;
   }
 
-  const indentSize = getIndentSize(depth);
+  const indentSize = indent(depth);
   const currentIndent = ' '.repeat(indentSize);
   const bracketIndent = ' '.repeat(indentSize - 2);
   const lines = Object
@@ -23,7 +23,7 @@ const stringify = (value, depth) => {
 
 const stylish = (data) => {
   const iter = (currentValue, depth) => {
-    const indentSize = getIndentSize(depth);
+    const indentSize = indent(depth);
     const currentIndent = ' '.repeat(indentSize);
     const bracketIndent = ' '.repeat(indentSize - 2);
 
