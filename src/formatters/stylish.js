@@ -18,31 +18,29 @@ const stringify = (value, depth) => {
   ].join('\n');
 };
 
-const stylish = (data) => {
-  const iter = (currentValue, depth) => {
-    const {
-      key, value, value1, value2, type, children,
-    } = currentValue;
+const iter = (currentValue, depth) => {
+  const {
+    key, value, value1, value2, type, children,
+  } = currentValue;
 
-    switch (type) {
-      case 'deleted':
-        return `${indent(depth)}- ${key}: ${stringify(value, depth)}`;
-      case 'added':
-        return `${indent(depth)}+ ${key}: ${stringify(value, depth)}`;
-      case 'unchanged':
-        return `${indent(depth)}  ${key}: ${stringify(value, depth)}`;
-      case 'changed':
-        return [`${indent(depth)}- ${key}: ${stringify(value1, depth)}`, `${indent(depth)}+ ${key}: ${stringify(value2, depth)}`];
-      case 'nested':
-        return `${indent(depth)}  ${key}: ${['{', ...children.flatMap((child) => iter(child, depth + 1)), `${indent(depth)}  }`].join('\n')}`;
-      case 'root':
-        return ['{', ...children.flatMap((child) => iter(child, depth + 1)), '}'].join('\n');
-      default:
-        throw new Error('Unknown type');
-    }
-  };
-
-  return iter(data, 0);
+  switch (type) {
+    case 'deleted':
+      return `${indent(depth)}- ${key}: ${stringify(value, depth)}`;
+    case 'added':
+      return `${indent(depth)}+ ${key}: ${stringify(value, depth)}`;
+    case 'unchanged':
+      return `${indent(depth)}  ${key}: ${stringify(value, depth)}`;
+    case 'changed':
+      return [`${indent(depth)}- ${key}: ${stringify(value1, depth)}`, `${indent(depth)}+ ${key}: ${stringify(value2, depth)}`];
+    case 'nested':
+      return `${indent(depth)}  ${key}: ${['{', ...children.flatMap((child) => iter(child, depth + 1)), `${indent(depth)}  }`].join('\n')}`;
+    case 'root':
+      return ['{', ...children.flatMap((child) => iter(child, depth + 1)), '}'].join('\n');
+    default:
+      throw new Error('Unknown type');
+  }
 };
+
+const stylish = (data) => iter(data, 0);
 
 export default stylish;
