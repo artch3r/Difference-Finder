@@ -19,23 +19,22 @@ const stringify = (value, depth) => {
 };
 
 const iter = (currentValue, depth) => {
-  const {
-    key, value, value1, value2, type, children,
-  } = currentValue;
-
-  switch (type) {
+  switch (currentValue.type) {
     case 'deleted':
-      return `${indent(depth)}- ${key}: ${stringify(value, depth)}`;
+      return `${indent(depth)}- ${currentValue.key}: ${stringify(currentValue.value, depth)}`;
     case 'added':
-      return `${indent(depth)}+ ${key}: ${stringify(value, depth)}`;
+      return `${indent(depth)}+ ${currentValue.key}: ${stringify(currentValue.value, depth)}`;
     case 'unchanged':
-      return `${indent(depth)}  ${key}: ${stringify(value, depth)}`;
-    case 'changed':
-      return [`${indent(depth)}- ${key}: ${stringify(value1, depth)}`, `${indent(depth)}+ ${key}: ${stringify(value2, depth)}`];
+      return `${indent(depth)}  ${currentValue.key}: ${stringify(currentValue.value, depth)}`;
+    case 'changed': {
+      const output1 = `${indent(depth)}- ${currentValue.key}: ${stringify(currentValue.value1, depth)}`;
+      const output2 = `${indent(depth)}+ ${currentValue.key}: ${stringify(currentValue.value2, depth)}`;
+      return [output1, output2];
+    }
     case 'nested':
-      return `${indent(depth)}  ${key}: ${['{', ...children.flatMap((child) => iter(child, depth + 1)), `${indent(depth)}  }`].join('\n')}`;
+      return `${indent(depth)}  ${currentValue.key}: ${['{', ...currentValue.children.flatMap((child) => iter(child, depth + 1)), `${indent(depth)}  }`].join('\n')}`;
     case 'root':
-      return ['{', ...children.flatMap((child) => iter(child, depth + 1)), '}'].join('\n');
+      return ['{', ...currentValue.children.flatMap((child) => iter(child, depth + 1)), '}'].join('\n');
     default:
       throw new Error('Unknown type');
   }
