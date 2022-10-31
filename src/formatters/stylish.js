@@ -36,7 +36,7 @@ const iter = (currentValue, depth) => {
     case 'root':
       return ['{', ...currentValue.children.flatMap((child) => iter(child, depth + 1)), '}'].join('\n');
     default:
-      throw new Error('Unknown type');
+      throw new Error(`${currentValue.type} is unknown type`);
   }
 };
 
