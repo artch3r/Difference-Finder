@@ -6,29 +6,24 @@ const buildDiff = (data1, data2) => {
 
   return sortedKeys.map((key) => {
     if (!_.has(data2, key)) {
-      const value = data1[key];
-      return { key, type: 'deleted', value };
+      return { key, type: 'deleted', value: data1[key] };
     }
 
     if (!_.has(data1, key)) {
-      const value = data2[key];
-      return { key, type: 'added', value };
+      return { key, type: 'added', value: data2[key] };
     }
 
-    const value1 = data1[key];
-    const value2 = data2[key];
-
-    if (_.isPlainObject(value1) && _.isPlainObject(value2)) {
-      return { key, type: 'nested', children: buildDiff(value1, value2) };
+    if (_.isPlainObject(data1[key]) && _.isPlainObject(data2[key])) {
+      return { key, type: 'nested', children: buildDiff(data1[key], data2[key]) };
     }
 
     if (!_.isEqual(data1[key], data2[key])) {
       return {
-        key, type: 'changed', value1, value2,
+        key, type: 'changed', value1: data1[key], value2: data2[key],
       };
     }
 
-    return { key, type: 'unchanged', value: value1 };
+    return { key, type: 'unchanged', value: data1[key] };
   });
 };
 
