@@ -1,32 +1,32 @@
 import _ from 'lodash';
 
-const getValueView = (value) => {
+const stringify = (value) => {
   if (_.isObject(value)) {
     return '[complex value]';
   }
 
-  if (_.isString(value)) {
+  if (typeof value === 'string') {
     return `'${value}'`;
   }
 
-  return value;
+  return `${value}`;
 };
+
+const buildPreviousPath = (parents) => (parents === '' ? '' : `${parents}.`);
 
 const plain = (data) => {
   const iter = (currentValue, parents) => {
-    const previousPath = parents === '' ? '' : `${parents}.`;
-
     switch (currentValue.type) {
       case 'deleted':
-        return `Property '${previousPath}${currentValue.key}' was removed`;
+        return `Property '${buildPreviousPath(parents)}${currentValue.key}' was removed`;
       case 'added':
-        return `Property '${previousPath}${currentValue.key}' was added with value: ${getValueView(currentValue.value)}`;
+        return `Property '${buildPreviousPath(parents)}${currentValue.key}' was added with value: ${stringify(currentValue.value)}`;
       case 'changed':
-        return `Property '${previousPath}${currentValue.key}' was updated. From ${getValueView(currentValue.value1)} to ${getValueView(currentValue.value2)}`;
+        return `Property '${buildPreviousPath(parents)}${currentValue.key}' was updated. From ${stringify(currentValue.value1)} to ${stringify(currentValue.value2)}`;
       case 'unchanged':
         return [];
       case 'nested':
-        return currentValue.children.flatMap((child) => iter(child, `${previousPath}${currentValue.key}`)).join('\n');
+        return currentValue.children.flatMap((child) => iter(child, `${buildPreviousPath(parents)}${currentValue.key}`)).join('\n');
       case 'root':
         return currentValue.children.flatMap((child) => iter(child, '')).join('\n');
       default:
