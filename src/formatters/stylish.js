@@ -14,9 +14,7 @@ const stringify = (value, depth, formate) => {
       return formate(preparedValue, depth + 1);
     });
 
-  return `{
-${[...lines].join('\n')}
-  ${indent(depth)}}`;
+  return `{\n${[...lines].join('\n')}\n  ${indent(depth)}}`;
 };
 
 const iter = (currentValue, depth) => {
@@ -34,15 +32,11 @@ const iter = (currentValue, depth) => {
     }
     case 'nested': {
       const output = [...currentValue.children.flatMap((child) => iter(child, depth + 1))].join('\n');
-      return `${indent(depth)}  ${currentValue.key}: {
-${output}
-  ${indent(depth)}}`;
+      return `${indent(depth)}  ${currentValue.key}: {\n${output}\n  ${indent(depth)}}`;
     }
     case 'root': {
       const output = [...currentValue.children].flatMap((child) => iter(child, depth + 1)).join('\n');
-      return `{
-${output}
-}`;
+      return `{\n${output}\n}`;
     }
     default:
       throw new Error(`${currentValue.type} is unknown type`);
