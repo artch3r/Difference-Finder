@@ -32,14 +32,18 @@ const iter = (currentValue, depth) => {
       const output2 = `${indent(depth)}+ ${currentValue.key}: ${stringify(currentValue.value2, depth, iter)}`;
       return [output1, output2];
     }
-    case 'nested':
+    case 'nested': {
+      const output = [...currentValue.children.flatMap((child) => iter(child, depth + 1))].join('\n');
       return `${indent(depth)}  ${currentValue.key}: {
-${[...currentValue.children.flatMap((child) => iter(child, depth + 1))].join('\n')}
+${output}
   ${indent(depth)}}`;
-    case 'root':
+    }
+    case 'root': {
+      const output = [...currentValue.children].flatMap((child) => iter(child, depth + 1)).join('\n');
       return `{
-${[...currentValue.children].flatMap((child) => iter(child, depth + 1)).join('\n')}
+${output}
 }`;
+    }
     default:
       throw new Error(`${currentValue.type} is unknown type`);
   }
