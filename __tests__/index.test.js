@@ -13,12 +13,10 @@ const readFixture = (filename) => fs.readFileSync(getFixturePath(filename), 'utf
 const stylishDiff = readFixture('stylish_diff.yml');
 const plainDiff = readFixture('plain_diff.yml');
 const jsonDiff = readFixture('json_diff.json');
+const testsList = ['json', 'yml'];
 
 describe('gendiff', () => {
-  test.each([
-    ['json'],
-    ['yml'],
-  ])('json and yaml', (format) => {
+  test.each(testsList)('%s format', (format) => {
     const filepath1 = getFixturePath(`file1.${format}`);
     const filepath2 = getFixturePath(`file2.${format}`);
     expect(genDiff(filepath1, filepath2)).toEqual(stylishDiff);
