@@ -1,15 +1,15 @@
 import _ from 'lodash';
 
-const stringify = (value) => {
-  if (_.isObject(value)) {
+const stringify = (data) => {
+  if (_.isObject(data)) {
     return '[complex value]';
   }
 
-  if (typeof value === 'string') {
-    return `'${value}'`;
+  if (typeof data === 'string') {
+    return `'${data}'`;
   }
 
-  return `${value}`;
+  return String(data);
 };
 
 const buildPath = (parents, current) => {
@@ -20,25 +20,25 @@ const buildPath = (parents, current) => {
   return [parents, current].join('.');
 };
 
-const iter = (currentValue, parents) => {
-  switch (currentValue.type) {
+const iter = (node, parents) => {
+  switch (node.type) {
     case 'deleted':
-      return `Property '${buildPath(parents, currentValue.key)}' was removed`;
+      return `Property '${buildPath(parents, node.key)}' was removed`;
     case 'added':
-      return `Property '${buildPath(parents, currentValue.key)}' was added with value: ${stringify(currentValue.value)}`;
+      return `Property '${buildPath(parents, node.key)}' was added with value: ${stringify(node.value)}`;
     case 'changed':
-      return `Property '${buildPath(parents, currentValue.key)}' was updated. From ${stringify(currentValue.value1)} to ${stringify(currentValue.value2)}`;
+      return `Property '${buildPath(parents, node.key)}' was updated. From ${stringify(node.value1)} to ${stringify(node.value2)}`;
     case 'unchanged':
       return [];
     case 'nested':
-      return currentValue.children.flatMap((child) => iter(child, buildPath(parents, currentValue.key))).join('\n');
+      return node.children.flatMap((child) => iter(child, buildPath(parents, node.key))).join('\n');
     case 'root':
-      return currentValue.children.flatMap((child) => iter(child, '')).join('\n');
+      return node.children.flatMap((child) => iter(child, '')).join('\n');
     default:
-      throw new Error('Unknown type');
+      throw new Error(`${node.type} is unknown type`);
   }
 };
 
-const plain = (data) => iter(data, '');
+const formatPlain = (tree) => iter(tree, '');
 
-export default plain;
+export default formatPlain;
