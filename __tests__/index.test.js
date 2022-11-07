@@ -10,9 +10,9 @@ const __dirname = dirname(__filename);
 const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
 const readFixture = (filename) => fs.readFileSync(getFixturePath(filename), 'utf-8');
 
-const stylishDiff = readFixture('stylish_diff.yml');
-const plainDiff = readFixture('plain_diff.yml');
-const jsonDiff = readFixture('json_diff.json');
+const stylishDiff = readFixture('expected_stylish_diff.txt');
+const plainDiff = readFixture('expected_plain_diff.txt');
+const jsonDiff = readFixture('expected_json_diff.txt');
 const testsList = ['json', 'yml'];
 
 describe('gendiff', () => {
