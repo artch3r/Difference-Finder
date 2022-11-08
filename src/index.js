@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import buildTree from './buildtree.js';
+import buildTree from './buildTree.js';
 import parse from './parsers.js';
 import format from './formatters/index.js';
 
