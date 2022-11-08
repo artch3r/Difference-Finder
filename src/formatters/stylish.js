@@ -2,16 +2,16 @@ import _ from 'lodash';
 
 const indent = (depth, spacesCount = 4) => ' '.repeat(depth * spacesCount - 2);
 
-const stringify = (data, depth, formate) => {
+const stringify = (data, depth, iter) => {
   if (!_.isObject(data)) {
     return data;
   }
 
   const output = Object
     .entries(data)
-    .map(([key, value]) => formate({ key, value, type: 'unchanged' }, depth + 1));
+    .map(([key, value]) => iter({ key, value, type: 'unchanged' }, depth + 1));
 
-  return `{\n${[...output].join('\n')}\n  ${indent(depth)}}`;
+  return `{\n${output.join('\n')}\n  ${indent(depth)}}`;
 };
 
 const iter = (node, depth) => {
@@ -28,11 +28,11 @@ const iter = (node, depth) => {
       return [output1, output2];
     }
     case 'nested': {
-      const output = [...node.children.flatMap((child) => iter(child, depth + 1))].join('\n');
+      const output = node.children.flatMap((child) => iter(child, depth + 1)).join('\n');
       return `${indent(depth)}  ${node.key}: {\n${output}\n  ${indent(depth)}}`;
     }
     case 'root': {
-      const output = [...node.children].flatMap((child) => iter(child, depth + 1)).join('\n');
+      const output = node.children.flatMap((child) => iter(child, depth + 1)).join('\n');
       return `{\n${output}\n}`;
     }
     default:
