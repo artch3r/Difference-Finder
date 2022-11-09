@@ -12,13 +12,7 @@ const stringify = (data) => {
   return String(data);
 };
 
-const buildPath = (parents, current) => {
-  if (parents === '') {
-    return current;
-  }
-
-  return [parents, current].join('.');
-};
+const buildPath = (parents, current) => [...parents, current].join('.');
 
 const iter = (node, parents) => {
   switch (node.type) {
@@ -31,14 +25,14 @@ const iter = (node, parents) => {
     case 'unchanged':
       return [];
     case 'nested':
-      return node.children.flatMap((child) => iter(child, buildPath(parents, node.key))).join('\n');
+      return node.children.flatMap((child) => iter(child, [...parents, node.key])).join('\n');
     case 'root':
-      return node.children.flatMap((child) => iter(child, '')).join('\n');
+      return node.children.flatMap((child) => iter(child, [])).join('\n');
     default:
       throw new Error(`${node.type} is unknown type`);
   }
 };
 
-const formatPlain = (tree) => iter(tree, '');
+const formatPlain = (tree) => iter(tree, []);
 
 export default formatPlain;
