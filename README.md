@@ -7,15 +7,15 @@
 
 <a href="https://codeclimate.com/github/artch3r/frontend-project-46/test_coverage"><img src="https://api.codeclimate.com/v1/badges/d5ceb180e9d977478917/test_coverage" /></a>
 
-# Описание Пакета
-**Вычислитель отличий** – программа, определяющая разницу между двумя структурами данных.
+# Description
+**Difference Finder** is a program that determines the difference between two data structures.
 
-*__Возможности утилиты:__*
-* Поддержка разных входных форматов: yaml, json
-* Генерация отчета в виде plain text, stylish и json
-* Возможно использование утилиты как самостоятельного скрипта, так и подключаемой библиотеки
+*__Utility Features:__*
+* Support for different input formats: YAML, JSON
+* Output in plain text, stylish, and JSON format
+* Utility usage is available as a script or a library
 
-*__Пример использования:__*
+*__Usage example:__*
 ```
 gendiff --format plain path/to/file.yml another/path/file.json
 
@@ -41,41 +41,38 @@ gendiff filepath1.json filepath2.json
 }
 ```
 
-## Минимальные требования
-* nodejs версии не ниже 18
-
-## Инструкции по установке и запуску
-1. Скопируйте репозиторий к себе на устройство для локального использования с помощью команды 
+## Install and usage instructions
+1. Copy repository to your device for local usage
 ```
 git clone
 ```
-2. Установите зависимости пакета для его корректного использования с помощью команды 
+2. Install package dependencies 
 ```
 make install
 ```
-3. Установите пакет к себе на устройство с помощью команды 
+3. Install package to your device
 ```
 npm link
 ```
-4. Для выполнения пакета используйте комманду
+4. To start use command
 ```
 gendiff
 ```
-5. Аргументы:
-укажите пути к файлам для сравнения
+5. Arguments:
+enter paths to files for comparison
 ```
 gendiff filepath1 filepath2 
 ```
-5. Опции:
+5. Options:
 ```
 --help -h
 ```
-Отображение описания пакета
+Show package description
 ```
 --format -f
 ```
-Определение формата вывода. Возможные значения:
-* stylish (значение по умолчанию)
+Choose output format. Possible values:
+* stylish (default)
 * plain
 * json
 
